@@ -314,12 +314,15 @@ $(document).on("wb-updated.wb-tabs", ".wb-tabs", function (event, $newPanel) {
       $(this).attr('aria-disabled', true);
     })
   }
-  //update selectedQuestions field
-  var selections = [];
+  //update selectedQuestions field and summary in step 4
+  var selectionsIds = [];
+  var selectionsNames = [];
   $('.wizard input:checked').each(function () {
-    selections.push(this.id);
+    selectionsIds.push(this.id);
+    selectionsNames.push($("label[for='" + this.id + "']").text());
   });
-  $('#selectedQuestions').val(selections.join());
+  $('#selectedQuestions').val(selectionsIds.join());
+  populateSelectionSummary(selectionsNames);
 });
 
 var uncheckedStep1ClauseIds = [];
@@ -1149,3 +1152,24 @@ $(function () {
     });
   }
 });
+
+function populateSelectionSummary(selectionsNames) {
+  const summaryList = document.getElementById("selectionSummary");
+
+  // Clear existing list items
+  summaryList.innerHTML = "";
+
+  // Add new list items from selectionsNames array
+  selectionsNames.forEach(name => {
+    const li = document.createElement("li");
+    li.textContent = name;
+    summaryList.appendChild(li);
+  });
+  var $default = $('#defaultSelectionSummary');
+  if (selectionsNames.length === 0) {
+    $default.removeClass('hidden');
+  } else {
+    $default.addClass('hidden');
+
+  }
+}
