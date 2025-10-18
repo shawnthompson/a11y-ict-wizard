@@ -526,7 +526,10 @@ var step1SubsetsQuestionHandler = function () {
       $questionStep1Checkbox.prop('checked', true);
       $questionStep1Checkbox.attr('aria-disabled', true);
       wasRemoved = true;
-      $element.addClass('hidden');
+      // don't hide the element if the user has chosen to show automatically hidden options
+      if ($('#toggleAutoHiddenOptionsStep1').attr('aria-pressed') === 'false') {
+        $element.addClass('hidden');
+      }
     } else if ($questionStep1Checkbox.attr('aria-disabled') === 'true') {
       $questionStep1Checkbox.siblings('span.remove-disabled-text').text('');
       $element.css('color', '#333333');
@@ -635,7 +638,10 @@ var step2QuestionHandler = function () {
       $dialogLink.addClass('no-pointer-events');
       $questionStep2Checkbox.attr('aria-disabled', true);
       $questionStep2Checkbox.prop('checked', true);
-      $element.addClass('hidden');
+      // don't hide the element if the user has chosen to show automatically hidden options
+      if ($('#toggleAutoHiddenOptionsStep2').attr('aria-pressed') === 'false') {
+        $element.addClass('hidden');
+      }
     } else if ($questionStep2Checkbox.attr('aria-disabled') === 'true') {
       $questionStep2Checkbox.siblings('span.remove-disabled-text').addClass('hidden');
       $element.css('color', '#333333');
@@ -748,7 +754,10 @@ var step3QuestionHandler = function () {
       $dialogLink.addClass('no-pointer-events');
       $questionStep3Checkbox.attr('aria-disabled', true);
       $questionStep3Checkbox.prop('checked', true);
-      $element.addClass('hidden');
+      // don't hide the element if the user has chosen to show automatically hidden options
+      if ($('#toggleAutoHiddenOptionsStep3').attr('aria-pressed') === 'false') {
+        $element.addClass('hidden');
+      }
     } else if ($questionStep3Checkbox.attr('aria-disabled') === 'true') {
       $questionStep3Checkbox.siblings('span.remove-disabled-text').addClass('hidden');
       $element.css('color', '#333333');
