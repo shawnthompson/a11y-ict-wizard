@@ -7,7 +7,7 @@ mixin checkbox(label, name, onlyIf, description, isUber, isUnique)
   .checkbox(class=`checkbox-${name}`)
     label(for=name)
       input(id=name type='checkbox' name=name class=(onlyIf ? 'onlyIf' : false) class=(isUber ? 'isUber' : false) class=(isUnique ? 'isUnique' : false))
-      span.remove-disabled-text
+      span.remove-disabled-text.hidden [Removed by other selection]!{' '}
       | !{label}
     a(href=`#moreInfo${name}` aria-controls=`moreInfo${name}` class="wb-lbx lbx-modal" aria-label=`Open a dialog with more info on ${label}` tabindex="0")
       svg(width="24.1" height="24.1" viewBox="-10 -10 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="position: absolute; transform: translate(0%, 10%)")
@@ -50,16 +50,13 @@ section.wizard
       .btn-group(style="margin-left : 15px")
         button#undoLastStep1(class="btn btn-default") Undo
       .btn-group(style="margin-left : 15px")
-        button#showAllRemovedStep1(class="btn btn-default") Show removed
-        button#hideAllRemovedStep1(class="btn btn-default" style="margin-left : 3px")  Hide removed
-      // Toggle button for step 1
-      button#toggleAutoHiddenOptionsStep1(
+        button#toggleAutoHiddenOptionsStep1(
         type="button"
         role="button"
         class="btn btn-default"
         aria-pressed="false"
         style="margin-left:10px"
-      ) Show Automatically Hidden options
+        ) Show Hidden
       <br/>
       div(aria-atomic="true" aria-live="polite")
         p.clause-count
@@ -81,16 +78,13 @@ section.wizard
       .btn-group(style="margin-left : 15px")
         button#undoLastStep2(class="btn btn-default") Undo
       .btn-group(style="margin-left : 15px")
-        button#showAllRemovedStep2(class="btn btn-default") Show removed
-        button#hideAllRemovedStep2(class="btn btn-default" style="margin-left : 3px")  Hide removed
-      // Toggle button for step 2
-      button#toggleAutoHiddenOptionsStep2(
+        button#toggleAutoHiddenOptionsStep2(
         type="button"
         role="button"
         class="btn btn-default"
         aria-pressed="false"
         style="margin-left:10px"
-      ) Show Automatically Hidden options
+        ) Show Hidden
       <br/>
       div(aria-atomic="true" aria-live="polite")
         p.clause-count
@@ -112,16 +106,13 @@ section.wizard
       .btn-group(style="margin-left : 15px")
         button#undoLastStep3(class="btn btn-default") Undo
       .btn-group(style="margin-left : 15px")
-        button#showAllRemovedStep3(class="btn btn-default") Show removed
-        button#hideAllRemovedStep3(class="btn btn-default" style="margin-left : 3px")  Hide removed
-      // Toggle button for step 3
-      button#toggleAutoHiddenOptionsStep3(
+        button#toggleAutoHiddenOptionsStep3(
         type="button"
         role="button"
         class="btn btn-default"
         aria-pressed="false"
         style="margin-left:10px"
-      ) Show Automatically Hidden options
+        ) Show Hidden
       <br/>
       div(aria-atomic="true" aria-live="polite")
         p.clause-count

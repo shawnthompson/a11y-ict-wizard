@@ -50,8 +50,11 @@ block content
               a.overlay-lnk.right(href='#instructionsStep4' aria-controls='#instructionsStep4' role='button' title='Step 4 instructions') Instructions: Step 4
             - var tree_name = "These are the remaining clauses:"
             include includes/clause_tree
-            p.clause-count
-              strong Total Clauses: <span class='clauseCount'>0</span>
+            p The below are the selections which you made in steps 1, 2, and 3 which resulted in the remaining clauses shown above:
+            ul(id='selectionSummary')
+            ul(id='defaultSelectionSummary')
+              li No selections made
+            strong Total Clauses: <span class='clauseCount'>0</span>
             div(style='margin-top: 8px;')
               a.btn.btn-default.wb-tabs-ext.left(href='#details-step3', style='margin-bottom: 10px;') Previous
               a.btn.btn-default.wb-tabs-ext.right(href='#details-step5', style='margin-bottom: 10px;') Next

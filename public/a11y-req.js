@@ -314,12 +314,23 @@ $(document).on("wb-updated.wb-tabs", ".wb-tabs", function (event, $newPanel) {
       $(this).attr('aria-disabled', true);
     })
   }
-  //update selectedQuestions field
-  var selections = [];
+  //update selectedQuestions field and summary in step 4
+  var selectionsIds = [];
+  var selectionsNames = [];
   $('.wizard input:checked').each(function () {
-    selections.push(this.id);
+    // Use jQuery wrapper to read attributes safely
+    var $input = $(this);
+    if ($input.attr('aria-disabled') === 'true') {
+      return; // skip this one
+    }
+
+    var cloneLabel = document.querySelector("label[for='" + this.id + "']").cloneNode(true);
+    cloneLabel.querySelector("span").remove();
+    selectionsNames.push(cloneLabel.textContent);
+    selectionsIds.push(this.id);
   });
-  $('#selectedQuestions').val(selections.join());
+  $('#selectedQuestions').val(selectionsIds.join());
+  populateSelectionSummary(selectionsNames);
 });
 
 var uncheckedStep1ClauseIds = [];
@@ -444,7 +455,7 @@ var step1SubsetsQuestionHandler = function () {
       if ($questionStep1Checkbox.attr('aria-disabled') === 'true' || undo) {
         var $element = $allCheckboxElements.filter('.checkbox-' + questionId);
         var $dialogLink = $allDialogLinks.filter('[href="#moreInfo' + questionId + '"]');
-        $questionStep1Checkbox.siblings('span.remove-disabled-text').text('');
+        $questionStep1Checkbox.siblings('span.remove-disabled-text').addClass('hidden');
         $element.css('color', '#333333');
         $element.removeAttr('tabindex');
         $element.removeClass('hidden');
@@ -507,7 +518,7 @@ var step1SubsetsQuestionHandler = function () {
     var $dialogLink = $allDialogLinks.filter('[href="#moreInfo' + questionId + '"]');
 
     if (covered && checkedParentinStep1) {
-      $questionStep1Checkbox.siblings('span.remove-disabled-text').text('[removed] ');
+      $questionStep1Checkbox.siblings('span.remove-disabled-text').removeClass('hidden');
       $element.css('color', '#AD0000');
       $element.attr('tabindex', 0);
       $dialogLink.attr('tabindex', -1);
@@ -515,7 +526,10 @@ var step1SubsetsQuestionHandler = function () {
       $questionStep1Checkbox.prop('checked', true);
       $questionStep1Checkbox.attr('aria-disabled', true);
       wasRemoved = true;
-      $element.addClass('hidden');
+      // don't hide the element if the user has chosen to show automatically hidden options
+      if ($('#toggleAutoHiddenOptionsStep1').attr('aria-pressed') === 'false') {
+        $element.addClass('hidden');
+      }
     } else if ($questionStep1Checkbox.attr('aria-disabled') === 'true') {
       $questionStep1Checkbox.siblings('span.remove-disabled-text').text('');
       $element.css('color', '#333333');
@@ -551,7 +565,7 @@ var step2QuestionHandler = function () {
     var $dialogLink = $allDialogLinks.filter('[href="#moreInfo' + questionId + '"]');
     if (!checkedStep2QuestionsIds.includes(questionId)) {
       if (undo) {
-        $questionStep2Checkbox.siblings('span.remove-disabled-text').text('');
+        $questionStep2Checkbox.siblings('span.remove-disabled-text').addClass('hidden');
         $element.css('color', '#333333');
         $element.removeAttr('tabindex');
         $element.removeClass('hidden');
@@ -617,16 +631,19 @@ var step2QuestionHandler = function () {
     var $dialogLink = $allDialogLinks.filter('[href="#moreInfo' + questionId + '"]');
 
     if (covered && checkedinStep1) {
-      $questionStep2Checkbox.siblings('span.remove-disabled-text').text('[removed] ');
+      $questionStep2Checkbox.siblings('span.remove-disabled-text').removeClass('hidden');
       $element.css('color', '#AD0000');
       $element.attr('tabindex', 0);
       $dialogLink.attr('tabindex', -1);
       $dialogLink.addClass('no-pointer-events');
       $questionStep2Checkbox.attr('aria-disabled', true);
       $questionStep2Checkbox.prop('checked', true);
-      $element.addClass('hidden');
+      // don't hide the element if the user has chosen to show automatically hidden options
+      if ($('#toggleAutoHiddenOptionsStep2').attr('aria-pressed') === 'false') {
+        $element.addClass('hidden');
+      }
     } else if ($questionStep2Checkbox.attr('aria-disabled') === 'true') {
-      $questionStep2Checkbox.siblings('span.remove-disabled-text').text('');
+      $questionStep2Checkbox.siblings('span.remove-disabled-text').addClass('hidden');
       $element.css('color', '#333333');
       $element.removeAttr('tabindex');
       $element.removeClass('hidden');
@@ -651,7 +668,7 @@ var step3QuestionHandler = function () {
     var $dialogLink = $allDialogLinks.filter('[href="#moreInfo' + questionId + '"]');
     if (!checkedStep3QuestionsIds.includes(questionId)) {
       if (undo) {
-        $questionStep3Checkbox.siblings('span.remove-disabled-text').text('');
+        $questionStep3Checkbox.siblings('span.remove-disabled-text').addClass('hidden');
         $element.css('color', '#333333');
         $element.removeAttr('tabindex');
         $element.removeClass('hidden');
@@ -730,16 +747,19 @@ var step3QuestionHandler = function () {
     var $dialogLink = $allDialogLinks.filter('[href="#moreInfo' + questionId + '"]');
 
     if (covered && checkedinStep1) {
-      $questionStep3Checkbox.siblings('span.remove-disabled-text').text('[removed] ');
+      $questionStep3Checkbox.siblings('span.remove-disabled-text').removeClass('hidden');
       $element.css('color', '#AD0000');
       $element.attr('tabindex', 0);
       $dialogLink.attr('tabindex', -1);
       $dialogLink.addClass('no-pointer-events');
       $questionStep3Checkbox.attr('aria-disabled', true);
       $questionStep3Checkbox.prop('checked', true);
-      $element.addClass('hidden');
+      // don't hide the element if the user has chosen to show automatically hidden options
+      if ($('#toggleAutoHiddenOptionsStep3').attr('aria-pressed') === 'false') {
+        $element.addClass('hidden');
+      }
     } else if ($questionStep3Checkbox.attr('aria-disabled') === 'true') {
-      $questionStep3Checkbox.siblings('span.remove-disabled-text').text('');
+      $questionStep3Checkbox.siblings('span.remove-disabled-text').addClass('hidden');
       $element.css('color', '#333333');
       $element.removeAttr('tabindex');
       $element.removeClass('hidden');
@@ -1149,3 +1169,24 @@ $(function () {
     });
   }
 });
+
+function populateSelectionSummary(selectionsNames) {
+  const summaryList = document.getElementById("selectionSummary");
+
+  // Clear existing list items
+  summaryList.innerHTML = "";
+
+  // Add new list items from selectionsNames array
+  selectionsNames.forEach(name => {
+    const li = document.createElement("li");
+    li.textContent = name;
+    summaryList.appendChild(li);
+  });
+  var $default = $('#defaultSelectionSummary');
+  if (selectionsNames.length === 0) {
+    $default.removeClass('hidden');
+  } else {
+    $default.addClass('hidden');
+
+  }
+}
