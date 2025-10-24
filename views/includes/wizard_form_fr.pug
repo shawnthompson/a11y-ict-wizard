@@ -130,7 +130,8 @@ section.wizard
     
   //- Hidden data (for client-side javascript)
   div.wb-inv(aria-live="polite")
-    p.disabledQuestions.hidden Nothing disabled
+    p.disabledQuestionsHidden.hidden French TBD BD disabled questions are now hidden
+    p.disabledQuestionsShown.hidden FrenchTBD disabled questions are now shown
   .hidden(id=`question-data-step${step}`)
     each question in question_list
       ul.question(data-question-id=question._id)
