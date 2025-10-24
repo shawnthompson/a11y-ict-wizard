@@ -1116,8 +1116,9 @@ function showCheckboxes(checkboxes) {
     var $element = $('.checkbox-' + questionId);
     $element.removeClass('hidden');
   });
-  $('.disabledQuestions').removeClass('hidden');
-  $('.disabledQuestions').text("Disable questions are now shown.");
+  $('.disabledQuestionsShown').removeClass('hidden');
+  $('.disabledQuestionsHidden').addClass('hidden');
+
   setTimeout(function () { $('.disabledQuestions').addClass('hidden'); }, 500);
 
 }
@@ -1129,8 +1130,9 @@ function hideCheckboxes(checkboxes) {
     var $element = $('.checkbox-' + questionId);
     $element.addClass('hidden');
   });
-  $('.disabledQuestions').removeClass('hidden');
-  $('.disabledQuestions').text("Disable questions are now hidden.");
+  $('.disabledQuestionsHidden').removeClass('hidden');
+  $('.disabledQuestionsShown').addClass('hidden');
+
   setTimeout(function () { $('.disabledQuestions').addClass('hidden'); }, 500);
 }
 // Clause loader modal handler
