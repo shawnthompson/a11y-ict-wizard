@@ -14,7 +14,7 @@ block content
           details#details-step1
             summary Step 1: Define ICT functionality
             p.form-instructions-link
-              a.overlay-lnk.right(href='#instructionsStep1' aria-controls='instructionsStep1' role='button' title='Step 1 instructions') Instructions: Step 1
+              a.overlay-lnk.right(href='#instructionsStep1' aria-controls='instructionsStep1' role='button') Instructions: Step 1
               a.btn.btn-default.overlay-lnk(href='#restoreModal' aria-controls='restoreModal' role='button' title='Resume editing by pasting a previously generated requirements list') Load selections from previous output
             - var step = 1
             include includes/wizard_form
@@ -25,7 +25,7 @@ block content
           details#details-step2
             summary Step 2: Refine ICT functionality
             p.form-instructions-link
-              a.overlay-lnk.right(href='#instructionsStep2' aria-controls='#instructionsStep2' role='button' title='Step 2 instructions') Instructions: Step 2
+              a.overlay-lnk.right(href='#instructionsStep2' aria-controls='#instructionsStep2' role='button') Instructions: Step 2
             - var step = 2
             include includes/wizard_form
             p.clause-count
@@ -36,7 +36,7 @@ block content
           details#details-step3
             summary Step 3: Further refine ICT functionality
             p.form-instructions-link
-              a.overlay-lnk.right(href='#instructionsStep3' aria-controls='#instructionsStep3' role='button' title='Step 3 instructions') Instructions: Step 3
+              a.overlay-lnk.right(href='#instructionsStep3' aria-controls='#instructionsStep3' role='button') Instructions: Step 3
             - var step = 3
             include includes/wizard_form
             p.clause-count
@@ -47,7 +47,7 @@ block content
           details#details-step4
             summary Step 4: Review clause selection
             p.form-instructions-link
-              a.overlay-lnk.right(href='#instructionsStep4' aria-controls='#instructionsStep4' role='button' title='Step 4 instructions') Instructions: Step 4
+              a.overlay-lnk.right(href='#instructionsStep4' aria-controls='#instructionsStep4' role='button') Instructions: Step 4
             - var tree_name = "These are the remaining clauses:"
             include includes/clause_tree
             p The below are the selections which you made in steps 1, 2, and 3 which resulted in the remaining clauses shown above:
@@ -62,7 +62,7 @@ block content
           details#details-step5
             summary Step 5: Generate requirements documents
             p.form-instructions-link
-              a.overlay-lnk.right(href='#instructionsStep5' aria-controls='instructionsStep5' role='button' title='Step 5 instructions') Instructions: Step 5
+              a.overlay-lnk.right(href='#instructionsStep5' aria-controls='instructionsStep5' role='button') Instructions: Step 5
             include includes/download_chooser
             a.btn.btn-default.wb-tabs-ext.left(href='#details-step4', style='margin-bottom: 10px; margin-top: 8px;') Previous
 
