@@ -14,7 +14,7 @@ block content
           details#details-step1
             summary Étape 1 : Définir la fonctionnalité des TIC
             p.form-instructions-link
-              a.overlay-lnk.right(href='#instructionsStep1' aria-controls='instructionsStep1' role='button' title='Step 1 instructions') Instructions : Étape 1
+              a.overlay-lnk.right(href='#instructionsStep1' aria-controls='instructionsStep1' role='button') Instructions : Étape 1
               a.btn.btn-default.overlay-lnk(href='#restoreModal' aria-controls='restoreModal' role='button' title="Reprendre l'édition en collant une liste d’exigences précédemment générée") TB translated
             - var step = 1
             include includes/wizard_form_fr
@@ -25,7 +25,7 @@ block content
           details#details-step2
             summary Étape 2 : Préciser la fonctionnalité des TIC
             p.form-instructions-link
-              a.overlay-lnk.right(href='#instructionsStep2' aria-controls='instructionsStep2' role='button' title='Step 2 instructions') Instructions : Étape 2
+              a.overlay-lnk.right(href='#instructionsStep2' aria-controls='instructionsStep2' role='button') Instructions : Étape 2
             - var step = 2
             include includes/wizard_form_fr
             p.clause-count
@@ -36,7 +36,7 @@ block content
           details#details-step3
             summary Étape 3 : Préciser explicitement la fonctionnalité des TIC
             p.form-instructions-link
-              a.overlay-lnk.right(href='#instructionsStep3' aria-controls='instructionsStep3' role='button' title='Step 3 instructions') Instructions : Étape 3
+              a.overlay-lnk.right(href='#instructionsStep3' aria-controls='instructionsStep3' role='button') Instructions : Étape 3
             - var step = 3
             include includes/wizard_form_fr
             p.clause-count
@@ -47,7 +47,7 @@ block content
           details#details-step4
             summary Étape 4 : Vérifier la sélection de clause
             p.form-instructions-link
-              a.overlay-lnk.right(href='#instructionsStep4' aria-controls='instructionsStep4' role='button' title='Step 4 instructions') Instructions : Étape 4
+              a.overlay-lnk.right(href='#instructionsStep4' aria-controls='instructionsStep4' role='button') Instructions : Étape 4
             - var tree_name = "These are the remaining clauses:"
             include includes/clause_tree_fr
                         p The below are the selections which you made in steps 1, 2, and 3 which resulted in the remaining clauses shown above:
@@ -56,13 +56,12 @@ block content
               li No selections made
             p.clause-count
               strong Nombre total de clauses applicables: <span class='clauseCount'>0</span>
-            a.btn.btn-default.overlay-lnk(href='#restoreModal' aria-controls='restoreModal' role='button' title='Reprendre l\'édition en collant une liste d\'exigences précédemment générée') Entrer la liste des clauses
             a.btn.btn-default.wb-tabs-ext.left(href='#details-step3', style='margin-bottom: 10px;') Précédent
             a.btn.btn-default.wb-tabs-ext.right(href='#details-step5') Suivant
           details#details-step5
             summary Étape 5 : Produire les documents des exigences
             p.form-instructions-link
-              a.overlay-lnk.right(href='#instructionsStep5' aria-controls='instructionsStep5' role='button' title='Step 5 instructions') Instructions : Étape 5
+              a.overlay-lnk.right(href='#instructionsStep5' aria-controls='instructionsStep5' role='button') Instructions : Étape 5
             include includes/download_chooser_fr
             a.btn.btn-default.wb-tabs-ext.left(href='#details-step4', style='margin-bottom: 10px;') Précédent
 
