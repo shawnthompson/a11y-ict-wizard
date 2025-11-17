@@ -3,8 +3,8 @@ extends layout
 block content
   h1#wb-cont(property='name')= title
   //- h3 About
-  p This tool allows users to answer a series of questions relating to what is #[strong not] true about a  product or service and then create a filtered partial version of the EN standard. The tool and reports are provided in both official languages, English or Canadian French. Selecting the checkboxes for these questions in steps 1, 2, and 3 removes their associated provisions from the documents in step 5. Each step provides increasingly more precise levels of refinement for the provisions to be included, based on the previous steps’ selections. This allows the user to create a focused set of Information and Communications Technology (ICT) accessibility requirements.
-  p For Business Owners/ Technical Authorities with the Government of Canada, this tool can be used to narrow down the requirements to be specific to the solution and/or service you are looking to procure or build. The wizard output should be provided to your bidders as part of the solicitation process and it is important to only checked the boxes which you are sure do not apply to your bidders potential solutions.
+  p This tool allows users to mark a series of statements relating to what is #[strong not] true about a  product or service and then download a filtered partial version of the EN standard  based on your selections. The tool and reports are provided in both official languages, English or Canadian French. Selecting the checkboxes for these questions in steps 1, 2, and 3 removes their associated provisions from the downloads in step 5. Each step provides increasingly more precise levels of refinement for the provisions to be included, based on the previous steps’ selections. For example selecting a checkbox in step 1 will remove many provisions where as a checkbox in step 3 removes one.
+  p For Business Owners/ Technical Authorities with the Government of Canada, this tool can be used to narrow down the requirements to be specific to the solution and/or service you are looking to procure or build. The wizard output should be provided to your bidders as part of the solicitation process and it is important to only check the boxes which you are sure do not apply to your bidders potential solution. for example, if both a web solution and a non-web software solution are possible, don't check related checkboxes for either possibility.
   hr
   form(novalidate='novalidate' method='POST')
     input(type="hidden" id="selectedQuestions" name="questions" value="")
@@ -74,9 +74,9 @@ block content
       p Step 1 lists the major categories of ICT and it is recommended that you  carefully review your selections as these selections will eliminate large numbers of provisions from the EN 301 549 and will also remove checkboxes in Steps 2 and 3 which no longer apply.
       p There are optional buttons which can be selected before the checkboxes:
       ul
-        li Select all/Deselect all buttons to uncheck or check all checkboxes in this step. This works the same way as manually checking or unchecking the checkboxes and will impact the options in Steps 2 and 3 in the same way
-        li Show removed/Hide remove buttons will show or hide hidden checkboxes. This allows you to see what the tool has automatically hidden because of previous selections
+        li Select all/Deselect all buttons to uncheck or check all checkboxes in this step. This works the same way as manually checking or unchecking the checkboxes and will impact the options in Steps 2 and 3
         li Undo will revert the last check/uncheck or selecting Select all/Deselect all
+        li a show toggle which will show or hide hidden checkboxes. This allows you to see what the tool has automatically hidden because of previous selections
       p If you would like to resume editing from a previously created annex, you can use the “Load selections from previous output” button to open a dialog to copy and paste the list of the previous selections which will clear any selections you have made and reapply them.
       p Once you have finished making your selections select “next” to move to the next step, but you can return here if needed to adjust your selections.
       p Note 1: It is important to consider what could be included in the project or procurement, and to only remove items which you are sure do not apply. Many of these categories will be obvious such as removing hardware from a software-based solution. When it is less obvious consider using the help dialog located next to each item to get some additional context before making your selection.
@@ -89,21 +89,21 @@ block content
       p Step 2 presents the remaining categories of ICT which have 2 or more provisions associated with them. Carefully review your selections as the selections will eliminate multiple provisions and will also remove checkboxes in Step 3 which no longer apply.
       p You can find the same options from Step 1 before the checkboxes as follows:
       ul
-        li Select all/Deselect all buttons to uncheck or check all checkboxes in this step. This works the same way as manually checking or unchecking the checkboxes and will impact the options in step 3 in the same way.
-        li Show removed/Hide remove buttons will show or hide hidden checkboxes. This allows you to see what the tool has automatically hidden because of previous selections.
-        li Undo will revert the last check/uncheck or selecting Select all/Deselect all.
+        li Select all/Deselect all buttons to uncheck or check all checkboxes in this step. This works the same way as manually checking or unchecking  the checkboxes and will impact the options in step 3
+        li Undo will revert the last check/uncheck or selecting Select all/Deselect all
+        li a show toggle which will show or hide hidden checkboxes. This allows you to see what the tool has automatically hidden because of previous selections
       p Once you have finished making your selections select “next” to move to the next step, or “previous” if you need to adjust your selections in the previous step.
       p Note: It is important to consider what could be included in the project or procurement, and to only remove items which you are sure do not apply. Many of these categories will be obvious such as removing hardware from a software-based solution. When it is less obvious consider using the help dialog located next to each item to get some additional context before making your selection.
   section.wb-overlay.modal-content.overlay-def.wb-popup-mid#instructionsStep3(role='dialog')
     header.modal-header
       h2.modal-title Instructions: Step 3
     .modal-body
-      p Step 3 presents the remaining categories of ICT which only have a single provision associated with them. If you feel like something is missing from the displayed options consider using the “Show removed” option as many of the options may have been hidden based on your selections in Steps 1 and 2.
+      p Step 3 presents the remaining categories of ICT which only have a single provision associated with them. If you feel like something is missing from the displayed options consider using the toggle to show the hidden options as many of the options may have been hidden based on your selections in Steps 1 and 2.
       p You can find the same options from Steps 1 and 2 before the checkboxes as follows:
       ul
-        li Select all/Deselect all buttons to uncheck or check all checkboxes in this step. This works the same way as manually checking or unchecking the checkboxes. 
-        li Show removed/Hide remove buttons will show or hide hidden checkboxes. This allows you to see what the tool has automatically hidden because of previous selections.
-        li Undo will revert the last check/uncheck or selecting Select all/Deselect all.
+        li Select all/Deselect all buttons to uncheck or check all checkboxes in this step. This works the same way as manually checking or unchecking the checkboxes
+        li Undo will revert the last check/uncheck or selecting Select all/Deselect all
+        li a show toggle which will show or hide hidden checkboxes. This allows you to see what the tool has automatically hidden because of previous selections
       p Once you have finished making your selections select “next” to move to the review step, or “previous” if you need to adjust your selections in the previous step.
       p Note: It is important to consider what could be included in the project or procurement, and to only remove items which you are sure do not apply. Many of these categories will be obvious such as removing hardware from a software-based solution. When it is less obvious consider using the help dialog located next to each item to get some additional context.
   section.wb-overlay.modal-content.overlay-def.wb-popup-mid#instructionsStep4(role='dialog')
@@ -144,7 +144,7 @@ block content
       h2.modal-title Load selections from previous output
     .modal-body
       p Paste the bulleted list of the selections made to resume editing.
-      p The previous selections can be found in the "scope" section of the output and should look something like:
+      p The previous selections can be found in the "filtered list" section of the output and should look something like:
       ul
         li Is not and does not include a web page;
         li Is not and does not include a non-web document and
