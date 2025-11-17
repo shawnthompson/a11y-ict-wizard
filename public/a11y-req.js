@@ -527,7 +527,7 @@ var step1SubsetsQuestionHandler = function () {
       $questionStep1Checkbox.attr('aria-disabled', true);
       wasRemoved = true;
       // don't hide the element if the user has chosen to show automatically hidden options
-      if ($('#toggleAutoHiddenOptionsStep1').attr('aria-pressed') === 'false') {
+      if ($('#toggleAutoHiddenOptionsStep1').attr('aria-checked') === 'false') {
         $element.addClass('hidden');
       }
     } else if ($questionStep1Checkbox.attr('aria-disabled') === 'true') {
@@ -639,7 +639,7 @@ var step2QuestionHandler = function () {
       $questionStep2Checkbox.attr('aria-disabled', true);
       $questionStep2Checkbox.prop('checked', true);
       // don't hide the element if the user has chosen to show automatically hidden options
-      if ($('#toggleAutoHiddenOptionsStep2').attr('aria-pressed') === 'false') {
+      if ($('#toggleAutoHiddenOptionsStep2').attr('aria-checked') === 'false') {
         $element.addClass('hidden');
       }
     } else if ($questionStep2Checkbox.attr('aria-disabled') === 'true') {
@@ -755,7 +755,7 @@ var step3QuestionHandler = function () {
       $questionStep3Checkbox.attr('aria-disabled', true);
       $questionStep3Checkbox.prop('checked', true);
       // don't hide the element if the user has chosen to show automatically hidden options
-      if ($('#toggleAutoHiddenOptionsStep3').attr('aria-pressed') === 'false') {
+      if ($('#toggleAutoHiddenOptionsStep3').attr('aria-checked') === 'false') {
         $element.addClass('hidden');
       }
     } else if ($questionStep3Checkbox.attr('aria-disabled') === 'true') {
@@ -1062,52 +1062,53 @@ var sendFileToServer = function () {
 //   });
 // };
 function setupShowHideHandler() {
-  $(function () {
-    $('#toggleAutoHiddenOptionsStep1').on('click', function (e) {
-      e.preventDefault();
-      var $btn = $(this);
-      var pressed = $btn.attr('aria-pressed') === 'true';
-      var $checkboxes = $('.wizard input.isUber:checked');
-      if (!pressed) {
-        showCheckboxes($checkboxes);
-        $btn.attr('aria-pressed', 'true').addClass('active');
-      } else {
-        hideCheckboxes($checkboxes);
-        $btn.attr('aria-pressed', 'false').removeClass('active');
-      }
-    });
+  // delegate so elements present in any step will be handled
+  $(document).on('click', '#toggleAutoHiddenOptionsStep1, #toggleAutoHiddenOptionsStep2, #toggleAutoHiddenOptionsStep3', function (e) {
+    e.preventDefault();
+    var $btn = $(this);
+    toggleSwitchState($btn);
   });
-  $(function () {
-    $('#toggleAutoHiddenOptionsStep2').on('click', function (e) {
+
+  // keyboard activation for Space / Enter
+  $(document).on('keydown', '#toggleAutoHiddenOptionsStep1, #toggleAutoHiddenOptionsStep2, #toggleAutoHiddenOptionsStep3', function (e) {
+    // Space or Enter
+    if (e.key === ' ' || e.key === 'Spacebar' || e.key === 'Enter') {
       e.preventDefault();
       var $btn = $(this);
-      var pressed = $btn.attr('aria-pressed') === 'true';
-      var $checkboxes = $('.wizard input:checked').not('.isUber').not('.isUnique');
-      if (!pressed) {
-        showCheckboxes($checkboxes);
-        $btn.attr('aria-pressed', 'true').addClass('active');
-      } else {
-        hideCheckboxes($checkboxes);
-        $btn.attr('aria-pressed', 'false').removeClass('active');
-      }
-    });
-  });
-  $(function () {
-    $('#toggleAutoHiddenOptionsStep3').on('click', function (e) {
-      e.preventDefault();
-      var $btn = $(this);
-      var pressed = $btn.attr('aria-pressed') === 'true';
-      var $checkboxes = $('.wizard input:checked').filter('.isUnique');
-      if (!pressed) {
-        showCheckboxes($checkboxes);
-        $btn.attr('aria-pressed', 'true').addClass('active');
-      } else {
-        hideCheckboxes($checkboxes);
-        $btn.attr('aria-pressed', 'false').removeClass('active');
-      }
-    });
+      toggleSwitchState($btn);
+    }
   });
 }
+
+// helper to toggle a switch button (role="switch")
+function toggleSwitchState($btn) {
+  var isChecked = $btn.attr('aria-checked') === 'true';
+  var id = $btn.attr('id') || '';
+  var step = 1;
+  if (id.indexOf('Step2') !== -1 || id.endsWith('Step2')) step = 2;
+  if (id.indexOf('Step3') !== -1 || id.endsWith('Step3')) step = 3;
+
+  // compute the checkbox selector for the step
+  var checkboxes;
+  if (step === 1) {
+    checkboxes = $('.wizard input.isUber:checked');
+  } else if (step === 2) {
+    checkboxes = $('.wizard input:checked').not('.isUber').not('.isUnique');
+  } else {
+    checkboxes = $('.wizard input:checked').filter('.isUnique');
+  }
+
+  if (!isChecked) {
+    // turn ON: show automatically hidden options
+    showCheckboxes(checkboxes);
+    $btn.attr('aria-checked', 'true').addClass('active');
+  } else {
+    // turn OFF: hide automatically hidden options
+    hideCheckboxes(checkboxes);
+    $btn.attr('aria-checked', 'false').removeClass('active');
+  }
+}
+
 function showCheckboxes(checkboxes) {
   checkboxes.filter(function () {
     return $(this).attr('aria-disabled') === 'true';
