@@ -260,20 +260,11 @@ exports.clause_loader_get = (req, res, next) => {
 
 
 async function updateFromWordFiles(englishFile, frenchFile) {
-  // 1. Convert both files to HTML strings using mammoth
-  const englishHtmlResult = await mammoth.convertToHtml({ buffer: englishFile.buffer });
-  const frenchHtmlResult = await mammoth.convertToHtml({ buffer: frenchFile.buffer });
-  const englishHtml = englishHtmlResult.value;
-  const frenchHtml = frenchHtmlResult.value;
+  // If either file is missing, skip processing for that language
+  let englishRows = [];
+  let frenchRows = [];
 
-  // 2. Extract only the first table in each file
-  const englishDom = new JSDOM(englishHtml);
-  const frenchDom = new JSDOM(frenchHtml);
-
-  const englishTable = englishDom.window.document.querySelector("table");
-  const frenchTable = frenchDom.window.document.querySelector("table");
-
-  // 3. Break down each table into an array containing the HTML contents of each row and parse fields
+  // Helper to extract rows from a table element
   function extractRows(tableElement) {
     if (!tableElement) return [];
     const rows = Array.from(tableElement.querySelectorAll("tr"));
@@ -286,58 +277,75 @@ async function updateFromWordFiles(englishFile, frenchFile) {
       const tempDiv = tableElement.ownerDocument.createElement('div');
       tempDiv.innerHTML = htmlBlob;
       let number = '', name = '', description = '', compliance = '';
-      // number and name
-  const firstLine = tempDiv.firstChild.textContent.trim();
-        const spaceId = firstLine.indexOf(' ');
-        if (spaceId> 0) {
-          number = firstLine.substring(0, spaceId).trim();
-          name = firstLine.substring(spaceId+ 1).trim();
+
+      const firstChild = tempDiv.firstChild;
+      const firstLine = firstChild && firstChild.textContent ? firstChild.textContent.trim() : '';
+      const spaceId = firstLine.indexOf(' ');
+      if (spaceId > 0) {
+        number = firstLine.substring(0, spaceId).trim();
+        name = firstLine.substring(spaceId + 1).trim();
+      }
+
+      const children = tempDiv.childNodes;
+      let relationshipToFPCFound = false;
+      for (let i = 1; i < children.length; i++) {
+        const text = children[i].textContent || '';
+        if (text.startsWith("Relationship between requirements and functional performance criteria") || text.startsWith("Relation entre les exigences et les critères de performance fonctionnelle")) {
+          relationshipToFPCFound = true;
+          continue;
         }
-        // description and compliance 
-        const children = tempDiv.childNodes;
-        let relationshipToFPCFound = false;
-        for (let i =1; i<children.length; i++) {
-          if (children[i].textContent.startsWith("Relationship to Functional Performance Criteria") || children[i].textContent.startsWith("Relation avec")) {
-            relationshipToFPCFound = true;
-            // continue as we don't wish to add this child to either description or compliance
-continue;
-}
-if (!relationshipToFPCFound) {
+        if (!relationshipToFPCFound) {
           description += children[i].outerHTML;
-} else {
-  compliance += children[i].outerHTML;
-}
-        }  //for loop     
+        } else {
+          compliance += children[i].outerHTML;
+        }
+      }
+
       return { number, name, description, compliance };
     }).filter(Boolean);
   }
 
-  const englishRows = extractRows(englishTable);
-  let frenchRows = extractRows(frenchTable);
+  // Process English file if provided
+  if (englishFile) {
+    const englishHtmlResult = await mammoth.convertToHtml({ buffer: englishFile.buffer });
+    const englishHtml = englishHtmlResult.value;
+    const englishDom = new JSDOM(englishHtml);
+    const englishTable = englishDom.window.document.querySelector("table");
+    englishRows = extractRows(englishTable);
+  }
 
-  // Map frenchRows to rename fields as required
-  frenchRows = frenchRows.map(row => ({
-    number: row.number,
-    frName: row.name,
-    frDescription: row.description,
-    frCompliance: row.compliance
-  }));
+  // Process French file if provided
+  if (frenchFile) {
+    const frenchHtmlResult = await mammoth.convertToHtml({ buffer: frenchFile.buffer });
+    const frenchHtml = frenchHtmlResult.value;
+    const frenchDom = new JSDOM(frenchHtml);
+    const frenchTable = frenchDom.window.document.querySelector("table");
+    frenchRows = extractRows(frenchTable);
+    // Map frenchRows to rename fields as required
+    frenchRows = frenchRows.map(row => ({
+      number: row.number,
+      frName: row.name,
+      frDescription: row.description,
+      frCompliance: row.compliance
+    }));
+  }
 
-  updateData(englishRows);
-  updateData(frenchRows);
+  // Apply updates for whichever rows were found
+  if (englishRows.length > 0) await updateData(englishRows);
+  if (frenchRows.length > 0) await updateData(frenchRows);
   return { englishRows, frenchRows };
 }
 
 // handle the post for clause loader. This is where the file is recieved and processed.
 exports.clause_loader_post = async (req, res, next) => {
   const files = req.files;
-  if (!files || !files.englishfile || !files.frenchfile) {
-    return res.status(400).send('Both English and French files are required.');
+  if (!files || (!files.englishfile && !files.frenchfile)) {
+    return res.status(400).send('At least one file is required');
   }
-  const englishFile = files.englishfile[0];
-  const frenchFile = files.frenchfile[0];
-  console.log('English file:', englishFile.originalname, 'size:', englishFile.size);
-  console.log('French file:', frenchFile.originalname, 'size:', frenchFile.size);
+  const englishFile = files.englishfile ? files.englishfile[0] : null;
+  const frenchFile = files.frenchfile ? files.frenchfile[0] : null;
+  if (englishFile) console.log('English file:', englishFile.originalname, 'size:', englishFile.size);
+  if (frenchFile) console.log('French file:', frenchFile.originalname, 'size:', frenchFile.size);
 
   try {
     await updateFromWordFiles(englishFile, frenchFile);
