@@ -307,7 +307,7 @@ async function updateFromWordFiles(englishFile, frenchFile) {
 
   // Process English file if provided
   if (englishFile) {
-    const englishHtmlResult = await mammoth.convertToHtml({ buffer: englishFile.buffer });
+    const englishHtmlResult = await mammoth.convertToHtml({ buffer: englishFile.buffer }, { includeDefaultStyleMap: true, styleMap: ["u => u"] });
     const englishHtml = englishHtmlResult.value;
     const englishDom = new JSDOM(englishHtml);
     const englishTable = englishDom.window.document.querySelector("table");
@@ -316,7 +316,7 @@ async function updateFromWordFiles(englishFile, frenchFile) {
 
   // Process French file if provided
   if (frenchFile) {
-    const frenchHtmlResult = await mammoth.convertToHtml({ buffer: frenchFile.buffer });
+    const frenchHtmlResult = await mammoth.convertToHtml({ buffer: frenchFile.buffer }, { includeDefaultStyleMap: true, styleMap: ["u => u"] });
     const frenchHtml = frenchHtmlResult.value;
     const frenchDom = new JSDOM(frenchHtml);
     const frenchTable = frenchDom.window.document.querySelector("table");
