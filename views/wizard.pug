@@ -70,13 +70,14 @@ block content
     header.modal-header
       h2.modal-title Instructions: Step 1
     .modal-body
-      p This wizard uses negative selection to remove the types of Information Communication Technology (ICT) that do not apply to a solicitation or ICT solution. This means that the wizard has all provisions selected to start with, and checking boxes will remove the associated selections. 
-      p Step 1 lists the major categories of ICT and it is recommended that you  carefully review your selections as these selections will eliminate large numbers of provisions from the EN 301 549 and will also remove checkboxes in Steps 2 and 3 which no longer apply.
-      p There are optional buttons which can be selected before the checkboxes:
+      p This wizard uses negative selection to remove the types of Information Communication Technology (ICT) that do not apply to a specific solicitation or ICT solution. This means that the wizard has all provisions selected to start with, and checking statements that are not true about the product/solution will remove the EN 301 549 requirements whose prerequisites say would not apply to that type of ICT.
+      p Step 1 lists statements based on pre-conditions in the EN 301 549 that apply to large numbers of requirements. It is recommended that you carefully review these statements since most requirements have more than one prerequisite, so checking these will also automatically check off statements in Steps 2 and 3 which no longer apply. These statements are automatically hidden by default - but you can choose to show them (see below)
+      p Above the list of statements with checkboxes there are 4 controls:
       ul
-        li Select all/Deselect all buttons to uncheck or check all checkboxes in this step. This works the same way as manually checking or unchecking the checkboxes and will impact the options in Steps 2 and 3
-        li Undo will revert the last check/uncheck or selecting Select all/Deselect all
-        li a show toggle which will show or hide hidden checkboxes. This allows you to see what the tool has automatically hidden because of previous selections
+        li Select all - will check all the boxes on a step.  This is usually only useful for testing.
+        li Deselect all - this will uncheck all the boxes on the current step - and allows you to start over on this step. to fully start over, refresh the page to clear all selections in all steps.
+        li Undo will revert the last check/uncheck or selecting Select all/Deselect all actions.
+        li a show automatically hidden options switch which will show or hide automatically hidden checkboxes which the system has determined do not apply based on your previous selections. This allows you to see what has been hidden and make adjustments if needed.
       p If you would like to resume editing from a previously created annex, you can use the “Load selections from previous output” button to open a dialog to copy and paste the list of the previous selections which will clear any selections you have made and reapply them.
       p Once you have finished making your selections select “next” to move to the next step, but you can return here if needed to adjust your selections.
       p Note 1: It is important to consider what could be included in the project or procurement, and to only remove items which you are sure do not apply. Many of these categories will be obvious such as removing hardware from a software-based solution. When it is less obvious consider using the help dialog located next to each item to get some additional context before making your selection.
@@ -86,30 +87,32 @@ block content
     header.modal-header
       h2.modal-title Instructions: Step 2
     .modal-body
-      p Step 2 presents the remaining categories of ICT which have 2 or more provisions associated with them. Carefully review your selections as the selections will eliminate multiple provisions and will also remove checkboxes in Step 3 which no longer apply.
-      p You can find the same options from Step 1 before the checkboxes as follows:
+      p Step 2 lists statements based on pre-conditions in the EN 301 549 that apply to two or more requirements. It is recommended that you carefully review these statements since most requirements have more than one prerequisite, so checking these will also automatically check off statements in Step 3 which no longer apply. These statements are automatically hidden by default - but you can choose to show them (see below)
+      p Above the list of statements with checkboxes there are 4 controls:
       ul
-        li Select all/Deselect all buttons to uncheck or check all checkboxes in this step. This works the same way as manually checking or unchecking  the checkboxes and will impact the options in step 3
-        li Undo will revert the last check/uncheck or selecting Select all/Deselect all
-        li a show toggle which will show or hide hidden checkboxes. This allows you to see what the tool has automatically hidden because of previous selections
+        li li Select all - will check all the boxes on a step.  This is usually only useful for testing.
+        li Deselect all - this will uncheck all the boxes on the current step - and allows you to start over on this step. to fully start over, refresh the page to clear all selections in all steps.
+        li Undo will revert the last check/uncheck or selecting Select all/Deselect all action
+        li a show automatically hidden options switch which will show or hide automatically hidden checkboxes which the system has determined do not apply based on your previous selections. This allows you to see what has been hidden and make adjustments if needed.
       p Once you have finished making your selections select “next” to move to the next step, or “previous” if you need to adjust your selections in the previous step.
       p Note: It is important to consider what could be included in the project or procurement, and to only remove items which you are sure do not apply. Many of these categories will be obvious such as removing hardware from a software-based solution. When it is less obvious consider using the help dialog located next to each item to get some additional context before making your selection.
   section.wb-overlay.modal-content.overlay-def.wb-popup-mid#instructionsStep3(role='dialog')
     header.modal-header
       h2.modal-title Instructions: Step 3
     .modal-body
-      p Step 3 presents the remaining categories of ICT which only have a single provision associated with them. If you feel like something is missing from the displayed options consider using the toggle to show the hidden options as many of the options may have been hidden based on your selections in Steps 1 and 2.
-      p You can find the same options from Steps 1 and 2 before the checkboxes as follows:
+      p Step 3 lists statements based on pre-conditions in the EN 301 549 that apply to a single requirement. Since most requirements have more than one prerequisite many of the statements may be automatically hidden by default - but you can choose to show them (see below).
+      p Above the list of statements with checkboxes there are 4 controls:
       ul
-        li Select all/Deselect all buttons to uncheck or check all checkboxes in this step. This works the same way as manually checking or unchecking the checkboxes
-        li Undo will revert the last check/uncheck or selecting Select all/Deselect all
-        li a show toggle which will show or hide hidden checkboxes. This allows you to see what the tool has automatically hidden because of previous selections
+        li Select all - will check all the boxes on a step.  This is usually only useful for testing.
+        li Deselect all - this will uncheck all the boxes on the current step - and allows you to start over on this step. to fully start over, refresh the page to clear all selections in all steps.
+        li Undo will revert the last check/uncheck or selecting Select all/Deselect all actions
+        li a show automatically hidden options switch which will show or hide automatically hidden checkboxes which the system has determined do not apply based on your previous selections. This allows you to see what has been hidden and make adjustments if needed.
       p Once you have finished making your selections select “next” to move to the review step, or “previous” if you need to adjust your selections in the previous step.
       p Note: It is important to consider what could be included in the project or procurement, and to only remove items which you are sure do not apply. Many of these categories will be obvious such as removing hardware from a software-based solution. When it is less obvious consider using the help dialog located next to each item to get some additional context.
   section.wb-overlay.modal-content.overlay-def.wb-popup-mid#instructionsStep4(role='dialog')
     header.modal-header
       h2.modal-title Instructions: Step 4
-    .modal-body
+    .modal-bodyT
       p Step 4 is a review step which shows which selections will be included in the documents you download in Step 5 and is presented as a tree. If you notice that there are any errors, go back to Steps 1, 2, or 3 to adjust your selections before proceeding to Step 5.
       p Tips for using the clause tree:
       ul
