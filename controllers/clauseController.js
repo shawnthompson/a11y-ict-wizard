@@ -307,7 +307,19 @@ async function updateFromWordFiles(englishFile, frenchFile) {
 
   // Process English file if provided
   if (englishFile) {
-    const englishHtmlResult = await mammoth.convertToHtml({ buffer: englishFile.buffer }, { includeDefaultStyleMap: true, styleMap: ["u => u"] });
+    const englishHtmlResult = await mammoth.convertToHtml({ buffer: englishFile.buffer }, {
+      includeDefaultStyleMap: true,
+      styleMap: [
+        "u => u",
+        "p[style-name='List Number'] => ol > li:fresh",
+        "p[style-name='List Number 2'] => ol > li:fresh",
+        "p[style-name='List Number 3'] => ol > li:fresh",
+        "p[style-name='List Alpha'] => ol[type='a'] > li:fresh",
+        "p[style-name='List Alpha 2'] => ol[type='A'] > li:fresh",
+        "p[style-name='List Bullet'] => ul > li:fresh"
+      ],
+      preserveEmptyParagraphs: false
+    });
     const englishHtml = englishHtmlResult.value;
     const englishDom = new JSDOM(englishHtml);
     const englishTable = englishDom.window.document.querySelector("table");
@@ -316,7 +328,19 @@ async function updateFromWordFiles(englishFile, frenchFile) {
 
   // Process French file if provided
   if (frenchFile) {
-    const frenchHtmlResult = await mammoth.convertToHtml({ buffer: frenchFile.buffer }, { includeDefaultStyleMap: true, styleMap: ["u => u"] });
+    const frenchHtmlResult = await mammoth.convertToHtml({ buffer: frenchFile.buffer }, {
+      includeDefaultStyleMap: true,
+      styleMap: [
+        "u => u",
+        "p[style-name='List Number'] => ol > li:fresh",
+        "p[style-name='List Number 2'] => ol > li:fresh",
+        "p[style-name='List Number 3'] => ol > li:fresh",
+        "p[style-name='List Alpha'] => ol[type='a'] > li:fresh",
+        "p[style-name='List Alpha 2'] => ol[type='A'] > li:fresh",
+        "p[style-name='List Bullet'] => ul > li:fresh"
+      ],
+      preserveEmptyParagraphs: false
+    });
     const frenchHtml = frenchHtmlResult.value;
     const frenchDom = new JSDOM(frenchHtml);
     const frenchTable = frenchDom.window.document.querySelector("table");
