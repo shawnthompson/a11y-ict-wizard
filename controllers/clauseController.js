@@ -290,7 +290,7 @@ async function updateFromWordFiles(englishFile, frenchFile) {
       let relationshipToFPCFound = false;
       for (let i = 1; i < children.length; i++) {
         const text = children[i].textContent || '';
-        if (text.startsWith("Relationship between requirements and functional performance criteria") || text.startsWith("Relation entre les exigences et les critères de performance fonctionnelle")) {
+        if (text.startsWith("Relationship between requirements and functional performance ") || text.startsWith("Relation entre les exigences et les critères de performance fonctionnelle")) {
           relationshipToFPCFound = true;
           continue;
         }
@@ -322,7 +322,7 @@ async function updateFromWordFiles(englishFile, frenchFile) {
     });
     const englishHtml = englishHtmlResult.value;
     const englishDom = new JSDOM(englishHtml);
-    const englishTable = englishDom.window.document.querySelector("table");
+    const englishTable = englishDom.window.document.querySelectorAll("table")[1];
     englishRows = extractRows(englishTable);
   }
 
@@ -343,7 +343,7 @@ async function updateFromWordFiles(englishFile, frenchFile) {
     });
     const frenchHtml = frenchHtmlResult.value;
     const frenchDom = new JSDOM(frenchHtml);
-    const frenchTable = frenchDom.window.document.querySelector("table");
+    const frenchTable = frenchDom.window.document.querySelectorAll("table")[1];
     frenchRows = extractRows(frenchTable);
     // Map frenchRows to rename fields as required
     frenchRows = frenchRows.map(row => ({
