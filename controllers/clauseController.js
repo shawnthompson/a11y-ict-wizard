@@ -20,6 +20,59 @@ const strings = {
   clauseloader: 'bulk clause loader'
 }
 
+const mammothStyleMap = [
+  "u => u",
+  "p[style-name='List Number'] => ol[class='alpha-paren-list'] > li:fresh",
+  "p[style-name='List Number 2'] => ol[class='alpha-paren-list'] > li:fresh",
+  "p[style-name='List Number 3'] => ol[class='alpha-paren-list'] > li:fresh",
+  "p[style-name='List Alpha'] => ol[class='alpha-paren-list'] > li:fresh",
+  "p[style-name='List Alpha 2'] => ol[class='alpha-paren-list upper-alpha'] > li:fresh",
+  "p[style-name='List Bullet'] => ul > li:fresh"
+];
+
+function toAlphabeticIndex(index, useUppercase = false) {
+  const base = 26;
+  let value = index + 1;
+  let output = '';
+
+  while (value > 0) {
+    value -= 1;
+    output = String.fromCharCode(97 + (value % base)) + output;
+    value = Math.floor(value / base);
+  }
+
+  return useUppercase ? output.toUpperCase() : output;
+}
+
+function normalizeOrderedListMarkers(containerElement) {
+  const orderedLists = Array.from(containerElement.querySelectorAll('ol'));
+
+  orderedLists.forEach((orderedList) => {
+    const document = containerElement.ownerDocument;
+    const isUppercase = orderedList.classList.contains('upper-alpha') || orderedList.getAttribute('type') === 'A';
+    const listItems = Array.from(orderedList.children).filter((child) => child.tagName === 'LI');
+
+    orderedList.setAttribute('style', 'padding-left: 1.8em; margin-left: 0; margin-top: 0; margin-bottom: 0;');
+
+    listItems.forEach((listItem, index) => {
+      const marker = `${toAlphabeticIndex(index, isUppercase)}) `;
+      const existingMarker = listItem.querySelector(':scope > span[data-alpha-marker="true"]');
+      if (existingMarker) {
+        existingMarker.remove();
+      }
+
+      listItem.setAttribute('style', 'display: block; list-style: none; margin-left: 0;');
+
+      const markerSpan = document.createElement('span');
+      markerSpan.setAttribute('data-alpha-marker', 'true');
+      markerSpan.setAttribute('style', 'display: inline-block; width: 1.8em; margin-left: -1.8em;');
+      markerSpan.textContent = marker;
+
+      listItem.insertBefore(markerSpan, listItem.firstChild);
+    });
+  });
+}
+
 exports.clause_json_restore_post = (req, res, next) => {
   console.log("In server. Form data");
   const JavaClauseFile = req.body;
@@ -276,6 +329,7 @@ async function updateFromWordFiles(englishFile, frenchFile) {
       // Create a temporary DOM to parse the HTML blob
       const tempDiv = tableElement.ownerDocument.createElement('div');
       tempDiv.innerHTML = htmlBlob;
+      normalizeOrderedListMarkers(tempDiv);
       let number = '', name = '', description = '', compliance = '';
 
       const firstChild = tempDiv.firstChild;
@@ -285,7 +339,9 @@ async function updateFromWordFiles(englishFile, frenchFile) {
         number = firstLine.substring(0, spaceId).trim();
         name = firstLine.substring(spaceId + 1).trim();
       }
-
+      if (number === '5.1.3.14') {
+      console.log(htmlBlob);
+      }
       const children = tempDiv.childNodes;
       let relationshipToFPCFound = false;
       for (let i = 1; i < children.length; i++) {
@@ -309,15 +365,7 @@ async function updateFromWordFiles(englishFile, frenchFile) {
   if (englishFile) {
     const englishHtmlResult = await mammoth.convertToHtml({ buffer: englishFile.buffer }, {
       includeDefaultStyleMap: true,
-      styleMap: [
-        "u => u",
-        "p[style-name='List Number'] => ol > li:fresh",
-        "p[style-name='List Number 2'] => ol > li:fresh",
-        "p[style-name='List Number 3'] => ol > li:fresh",
-        "p[style-name='List Alpha'] => ol[type='a'] > li:fresh",
-        "p[style-name='List Alpha 2'] => ol[type='A'] > li:fresh",
-        "p[style-name='List Bullet'] => ul > li:fresh"
-      ],
+      styleMap: mammothStyleMap,
       preserveEmptyParagraphs: false
     });
     const englishHtml = englishHtmlResult.value;
@@ -330,15 +378,7 @@ async function updateFromWordFiles(englishFile, frenchFile) {
   if (frenchFile) {
     const frenchHtmlResult = await mammoth.convertToHtml({ buffer: frenchFile.buffer }, {
       includeDefaultStyleMap: true,
-      styleMap: [
-        "u => u",
-        "p[style-name='List Number'] => ol > li:fresh",
-        "p[style-name='List Number 2'] => ol > li:fresh",
-        "p[style-name='List Number 3'] => ol > li:fresh",
-        "p[style-name='List Alpha'] => ol[type='a'] > li:fresh",
-        "p[style-name='List Alpha 2'] => ol[type='A'] > li:fresh",
-        "p[style-name='List Bullet'] => ul > li:fresh"
-      ],
+      styleMap: mammothStyleMap,
       preserveEmptyParagraphs: false
     });
     const frenchHtml = frenchHtmlResult.value;
