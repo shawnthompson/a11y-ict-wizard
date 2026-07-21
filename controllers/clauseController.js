@@ -30,45 +30,27 @@ const mammothStyleMap = [
   "p[style-name='List Bullet'] => ul > li:fresh"
 ];
 
-function toAlphabeticIndex(index, useUppercase = false) {
-  const base = 26;
-  let value = index + 1;
-  let output = '';
-
-  while (value > 0) {
-    value -= 1;
-    output = String.fromCharCode(97 + (value % base)) + output;
-    value = Math.floor(value / base);
-  }
-
-  return useUppercase ? output.toUpperCase() : output;
-}
-
 function normalizeOrderedListMarkers(containerElement) {
   const orderedLists = Array.from(containerElement.querySelectorAll('ol'));
 
   orderedLists.forEach((orderedList) => {
-    const document = containerElement.ownerDocument;
     const isUppercase = orderedList.classList.contains('upper-alpha') || orderedList.getAttribute('type') === 'A';
     const listItems = Array.from(orderedList.children).filter((child) => child.tagName === 'LI');
 
-    orderedList.setAttribute('style', 'padding-left: 1.8em; margin-left: 0; margin-top: 0; margin-bottom: 0;');
+    orderedList.setAttribute('type', isUppercase ? 'A' : 'a');
+    orderedList.setAttribute('style', 'padding-left: 1.8em; margin-left: 0; margin-top: 0; margin-bottom: 0; list-style-type: lower-alpha;');
 
-    listItems.forEach((listItem, index) => {
-      const marker = `${toAlphabeticIndex(index, isUppercase)}) `;
+    if (isUppercase) {
+      orderedList.style.listStyleType = 'upper-alpha';
+    }
+
+    listItems.forEach((listItem) => {
       const existingMarker = listItem.querySelector(':scope > span[data-alpha-marker="true"]');
       if (existingMarker) {
         existingMarker.remove();
       }
 
-      listItem.setAttribute('style', 'display: block; list-style: none; margin-left: 0;');
-
-      const markerSpan = document.createElement('span');
-      markerSpan.setAttribute('data-alpha-marker', 'true');
-      markerSpan.setAttribute('style', 'display: inline-block; width: 1.8em; margin-left: -1.8em;');
-      markerSpan.textContent = marker;
-
-      listItem.insertBefore(markerSpan, listItem.firstChild);
+      listItem.setAttribute('style', 'margin-left: 0;');
     });
   });
 }
