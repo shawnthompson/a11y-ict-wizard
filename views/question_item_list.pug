@@ -2,13 +2,36 @@ extends layout
 
 block content
   h1#wb-cont(property="name")= title
-  ul
-    each item in item_list
-      li
-        a(href=item.url) #{item.name}
+  
+  h2 Step 1 questions
+  - const step1 = item_list.filter(i => i.isUber === true)
+  if step1.length > 0
+    ul
+      each item in step1
+        li
+          a(href=item.url) #{item.name}
+  else
+    p There are no Step 1 questions to display.
 
-    else
-      li There are no questions to display.
+  h2 Step 2 questions
+  - const step2 = item_list.filter(i => i.isUber === false && i.isUnique === false)
+  if step2.length > 0
+    ul
+      each item in step2
+        li
+          a(href=item.url) #{item.name}
+  else
+    p There are no Step 2 questions to display.
+
+  h2 Step 3 questions
+  - const step3 = item_list.filter(i => i.isUnique === true)
+  if step3.length > 0
+    ul
+      each item in step3
+        li
+          a(href=item.url) #{item.name}
+  else
+    p There are no Step 3 questions to display.
 
   a(href='/edit/question/create') Create question
   <br>
