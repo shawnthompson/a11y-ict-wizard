@@ -248,3 +248,32 @@ exports.question_delete_post = (req, res, next) => {
     })
   });
 };
+
+// Display question loader form on GET
+exports.question_loader_get = (req, res, next) => {
+  res.render('question_loader', {
+    title: 'Bulk question loader',
+    breadcrumbs: [
+      { url: '/', text: 'Home' },
+      { url: '/edit', text: 'Edit content' },
+      { url: '/edit/question_loader', text: 'Bulk question loader' }
+    ]
+  });
+};
+
+// Handle question loader file upload on POST
+exports.question_loader_post = async (req, res, next) => {
+  const files = req.files;
+  if (!files || !files.questionfile) {
+    return res.status(400).send('A file is required');
+  }
+  const questionFile = files.questionfile[0];
+  console.log('Question file:', questionFile.originalname, 'size:', questionFile.size);
+
+  try {
+    // Placeholder for future processing logic
+    res.send('File uploaded successfully.');
+  } catch (err) {
+    next(err);
+  }
+};

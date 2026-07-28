@@ -1,0 +1,17 @@
+extends item_form
+
+block form
+  p This feature requires the user to upload one word document which has the new wording you would like for the descriptions in the database. The code is expecting all the questions you would like to update to be listed in a single table inside a Word document. this table will need to list the clause name in both English and French, and the descriptions in both english and French. The code will then search the database for the question name and update the description with the new wording using the english name as the key.
+  p This tool will do an exact search for the english name and will only update if a match is found. is CRITICAL to back up the database before using this feature so that if the import fails you can revert to the previous state.
+  p The loader will not add or remove questions , it will only update the descriptions of existing questions. If you need to add or remove questions you must do this manually using the Edit questions feature.
+  p THIS IS A PERMINATE CHANGE TO THE DATABASE. THERE IS NO UNDO FEATURE. BACK UP YOUR DATABASE BEFORE USING THIS FEATURE.
+  form(method='POST' action='question_loader' enctype="multipart/form-data")
+    .form-group
+      label(for= "questionfile") Upload Word document
+      input(type="file" id="questionfile" name="questionfile" accept=".docx")
+    button.btn.btn-primary(id='question-loader-submit',type='submit') Submit
+  section.wb-overlay.modal-content.overlay-def.wb-popup-mid#modal-questionLoader(role='dialog')
+    header.modal-header
+      h2.modal-title Results of question loader
+      .modal-body
+        div(class="modal-body", id="dialog")
