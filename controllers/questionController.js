@@ -84,10 +84,9 @@ exports.question_list = (req, res, next) => {
     .sort([['order', 'ascending']])
     .exec((err, list_questions) => {
       if (err) { return next(err); }
-      res.render('item_list', {
+      res.render('question_item_list', {
         title: strings.listTitle,
         item_list: list_questions,
-        type: 'question',
         breadcrumbs: [
           { url: '/', text: 'Home' },
           { url: '/edit', text: 'Edit content' }

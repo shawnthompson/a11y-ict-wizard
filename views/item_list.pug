@@ -16,11 +16,7 @@ block content
   a(href='/edit/' + type + '/create') Create #{type}
   <br>
 
-  if type === 'question'
-    a(href="/edit/questionsdownload" ) Download question list as JSON
-    <br>
-    a(href="#modal-uploadJSON" aria-controls="modal-uploadJSON" class="wb-lbx lbx-modal" id="restoreModal") Upload JSON and restore question list
-  else if type === 'clause'
+  if type === 'clause'
     a(href='/edit/clausesdownload') Download clause list as JSON
     <br>
     a(href="#modal-uploadJSON" aria-controls="modal-uploadJSON" class="wb-lbx lbx-modal" id="restoreModal") Upload JSON and restore clause list
