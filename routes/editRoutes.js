@@ -194,5 +194,12 @@ router.get('/question/:id/delete', question_controller.question_delete_get);
 // POST request to delete Question
 router.post('/question/:id/delete', question_controller.question_delete_post);
 
+// GET for question loader
+router.get('/question_loader', question_controller.question_loader_get);
+
+// post for question loader
+router.post('/question_loader', upload.fields([
+  { name: 'questionfile', maxCount: 1 }
+]), question_controller.question_loader_post);
 
 module.exports = router;

@@ -1,5 +1,7 @@
 const async = require('async');
 const mongoose = require('mongoose');
+const mammoth = require('mammoth');
+const { JSDOM } = require('jsdom');
 
 const Question = require('../models/questionSchema'); 
 const Clause = require('../models/clauseSchema');
@@ -247,4 +249,129 @@ exports.question_delete_post = (req, res, next) => {
       res.redirect('/edit/questions')
     })
   });
+};
+
+// Display question loader form on GET
+exports.question_loader_get = (req, res, next) => {
+  res.render('question_loader', {
+    title: 'Bulk question loader',
+    breadcrumbs: [
+      { url: '/', text: 'Home' },
+      { url: '/edit', text: 'Edit content' },
+      { url: '/edit/question_loader', text: 'Bulk question loader' }
+    ]
+  });
+};
+
+function extractPlainText(cellElement) {
+  if (!cellElement) return '';
+  return (cellElement.textContent || '').trim();
+}
+
+function extractCellHtml(cellElement) {
+  if (!cellElement) return '';
+  return (cellElement.innerHTML || '').trim();
+}
+
+function toQuestionUpdateRow(cells) {
+  if (!cells || cells.length < 5) return null;
+
+  return {
+    name: extractPlainText(cells[1]),
+    frName: extractPlainText(cells[2]),
+    description: extractCellHtml(cells[3]),
+    frDescription: extractCellHtml(cells[4])
+  };
+}
+
+function isQuestionDataRow(row) {
+  if (!row || !row.name) return false;
+  return row.name.toLowerCase() !== 'name';
+}
+
+async function parseQuestionRowsFromWordFile(file) {
+  const htmlResult = await mammoth.convertToHtml({ buffer: file.buffer }, {
+    includeDefaultStyleMap: true,
+    preserveEmptyParagraphs: false
+  });
+
+  const dom = new JSDOM(htmlResult.value);
+  const firstTable = dom.window.document.querySelector('table');
+  if (!firstTable) {
+    throw new Error('No table was found in the uploaded Word document.');
+  }
+
+  const rows = Array.from(firstTable.querySelectorAll('tr'));
+  return rows
+    .map((rowElement) => {
+      const cells = Array.from(rowElement.querySelectorAll('td'));
+      return toQuestionUpdateRow(cells);
+    })
+    .filter(isQuestionDataRow);
+}
+
+async function updateQuestionsFromRows(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) {
+    return { updatedCount: 0, missingNames: [] };
+  }
+
+  const missingNames = [];
+  let updatedCount = 0;
+
+  for (const row of rows) {
+    const updatedQuestion = await Question.findOneAndUpdate(
+      { name: row.name },
+      {
+        $set: {
+          frName: row.frName,
+          description: row.description,
+          frDescription: row.frDescription
+        }
+      },
+      { new: true }
+    ).exec();
+
+    if (updatedQuestion) {
+      updatedCount += 1;
+    } else {
+      missingNames.push(row.name);
+    }
+  }
+
+  return {
+    updatedCount,
+    missingNames: [...new Set(missingNames)]
+  };
+}
+
+function buildQuestionLoaderMessage(updatedCount, totalRows, missingNames) {
+  if (totalRows === 0) {
+    return 'The first table did not contain any question rows to process.';
+  }
+
+  if (missingNames.length === 0) {
+    return `Processed ${totalRows} rows. Updated ${updatedCount} question records.`;
+  }
+
+  return `Processed ${totalRows} rows. Updated ${updatedCount} question records. No matching question was found for: ${missingNames.join(', ')}.`;
+}
+
+// Handle question loader file upload on POST
+exports.question_loader_post = async (req, res, next) => {
+  const files = req.files;
+  if (!files || !files.questionfile) {
+    return res.status(400).send('A file is required');
+  }
+  const questionFile = files.questionfile[0];
+  console.log('Question file:', questionFile.originalname, 'size:', questionFile.size);
+
+  try {
+    const rows = await parseQuestionRowsFromWordFile(questionFile);
+    const { updatedCount, missingNames } = await updateQuestionsFromRows(rows);
+    const message = buildQuestionLoaderMessage(updatedCount, rows.length, missingNames);
+
+    res.json({ message });
+  } catch (err) {
+    next(err);
+  }
 };
