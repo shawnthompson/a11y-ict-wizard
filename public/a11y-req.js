@@ -421,6 +421,9 @@ function disableQuestion($checkbox, $element, $dialogLink, toggleBtnSelector) {
   if ($(toggleBtnSelector).attr('aria-checked') === 'false') {
     $element.addClass('hidden');
   }
+  $('.autoCheckedAnnounce').removeClass('hidden');
+  $('.autoUncheckedAnnounce').addClass('hidden');
+  setTimeout(function () { $('.autoCheckedAnnounce').addClass('hidden'); }, 500);
 }
 
 function enableQuestion($checkbox, $element, $dialogLink) {
@@ -432,6 +435,9 @@ function enableQuestion($checkbox, $element, $dialogLink) {
   $dialogLink.removeClass('no-pointer-events');
   $checkbox.prop('checked', false);
   $checkbox.removeAttr('aria-disabled');
+  $('.autoUncheckedAnnounce').removeClass('hidden');
+  $('.autoCheckedAnnounce').addClass('hidden');
+  setTimeout(function () { $('.autoUncheckedAnnounce').addClass('hidden'); }, 500);
 }
 
 var step1SubsetsQuestionHandler = function () {

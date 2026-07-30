@@ -130,6 +130,8 @@ section.wizard
   div.wb-inv(aria-live="polite")
     p.disabledQuestionsHidden.hidden Les questions désactivées sont maintenant masquées.
     p.disabledQuestionsShown.hidden Les questions désactivées sont maintenant affichées.
+    p.autoCheckedAnnounce.hidden Des énoncés ont été cochés automatiquement
+    p.autoUncheckedAnnounce.hidden Des énoncés ont été décochés automatiquement
   .hidden(id=`question-data-step${step}`)
     each question in question_list
       ul.question(data-question-id=question._id)

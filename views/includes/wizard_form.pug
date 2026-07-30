@@ -129,6 +129,8 @@ section.wizard
   div.wb-inv(aria-live="polite")
     p.disabledQuestionsHidden.hidden Disabled statements are now hidden
     p.disabledQuestionsShown.hidden Disabled statements are now shown
+    p.autoCheckedAnnounce.hidden Statements have been automatically checked
+    p.autoUncheckedAnnounce.hidden Statements have been automatically unchecked
   .hidden(id=`question-data-step${step}`)
     each question in question_list
       ul.question(data-question-id=question._id)
