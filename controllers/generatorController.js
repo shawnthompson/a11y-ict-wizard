@@ -107,8 +107,7 @@ exports.download = (req, res, next) => {
 			return next(err);
 		}
 		if (!results.fps || results.fps.length === 0) { // No clauses selected
-			console.log('No clauses selected, redirecting...');
-			return res.redirect('/view/create');
+			console.log('No clauses selected...');
 		}
 		results.fps = results.fps.sort((a, b) => a.number.localeCompare(b.number, undefined, { numeric: true }));
 		// Remove Tables and Figures annex if not applicable
