@@ -18,7 +18,7 @@ block content
               a.btn.btn-default.overlay-lnk(href='#restoreModal' aria-controls='restoreModal' role='button' title='Resume editing by pasting a previously generated requirements list') Load selections from previous output
             - var step = 1
             include includes/wizard_form
-            p.clause-count
+            p.clause-count(style="font-size: 16pt")
               strong Total Clauses: <span class='clauseCount'>0</span>
             a.btn.btn-default.wb-tabs-ext.right(href='#details-step2', style='margin-bottom: 10px;') Next
 
@@ -28,7 +28,7 @@ block content
               a.overlay-lnk.right(href='#instructionsStep2' aria-controls='#instructionsStep2' role='button') Instructions: Step 2
             - var step = 2
             include includes/wizard_form
-            p.clause-count
+            p.clause-count(style="font-size: 16pt")
               strong Total Clauses: <span class='clauseCount'>0</span>
             a.btn.btn-default.wb-tabs-ext.left(href='#details-step1', style='margin-bottom: 10px;') Previous
             a.btn.btn-default.wb-tabs-ext.right(href='#details-step3', style='margin-bottom: 10px;') Next
@@ -39,7 +39,7 @@ block content
               a.overlay-lnk.right(href='#instructionsStep3' aria-controls='#instructionsStep3' role='button') Instructions: Step 3
             - var step = 3
             include includes/wizard_form
-            p.clause-count
+            p.clause-count(style="font-size: 16pt")
               strong Total Clauses: <span class='clauseCount'>0</span>
             a.btn.btn-default.wb-tabs-ext.left(href='#details-step2', style='margin-bottom: 10px;') Previous
             a.btn.btn-default.wb-tabs-ext.right(href='#details-step4', style='margin-bottom: 10px;') Next
@@ -54,7 +54,8 @@ block content
             ul(id='selectionSummary')
             ul(id='defaultSelectionSummary')
               li No selections made
-            strong Total Clauses: <span class='clauseCount'>0</span>
+            p.clause-count(style="font-size: 16pt")
+              strong Total Clauses: <span class='clauseCount'>0</span>
             div(style='margin-top: 8px;')
               a.btn.btn-default.wb-tabs-ext.left(href='#details-step3', style='margin-bottom: 10px;') Previous
               a.btn.btn-default.wb-tabs-ext.right(href='#details-step5', style='margin-bottom: 10px;') Next

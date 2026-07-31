@@ -53,10 +53,10 @@ section.wizard
         aria-checked="false"
         tabindex="0"
         style="margin-left:10px"
-      ) Show Automatically Hidden options
+      ) Show Automatically Hidden statements
       <br/>
       div(aria-atomic="true" aria-live="polite")
-        p.clause-count
+        p.clause-count(style="font-size: 16pt")
           strong Total Clauses: <span class='clauseCount'>0</span>
       div.wizard-questions
         .row
@@ -81,10 +81,10 @@ section.wizard
         aria-checked="false"
         tabindex="0"
         style="margin-left:10px"
-      ) Show Automatically Hidden options
+      ) Show Automatically Hidden statements
       <br/>
       div(aria-atomic="true" aria-live="polite")
-        p.clause-count
+        p.clause-count(style="font-size: 16pt")
           strong Total Clauses: <span class='clauseCount'>0</span>
       div.wizard-questions
         .row
@@ -109,10 +109,10 @@ section.wizard
         aria-checked="false"
         tabindex="0"
         style="margin-left:10px"
-      ) Show Automatically Hidden options
+      ) Show Automatically Hidden statements
       <br/>
       div(aria-atomic="true" aria-live="polite")
-        p.clause-count
+        p.clause-count(style="font-size: 16pt")
           strong Total Clauses: <span class='clauseCount'>0</span>
       div.wizard-questions
         .row
@@ -127,8 +127,10 @@ section.wizard
 
   //- Hidden data (for client-side javascript)
   div.wb-inv(aria-live="polite")
-    p.disabledQuestionsHidden.hidden Disabled questions are now hidden
-    p.disabledQuestionsShown.hidden Disabled questions are now shown
+    p.disabledQuestionsHidden.hidden Disabled statements are now hidden
+    p.disabledQuestionsShown.hidden Disabled statements are now shown
+    p.autoCheckedAnnounce.hidden Statements have been automatically checked
+    p.autoUncheckedAnnounce.hidden Statements have been automatically unchecked
   .hidden(id=`question-data-step${step}`)
     each question in question_list
       ul.question(data-question-id=question._id)

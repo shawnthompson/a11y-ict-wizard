@@ -86,10 +86,9 @@ exports.info_list = (req, res, next) => {
     .sort([['order', 'ascending']])
     .exec((err, list_infos) => {
       if (err) { return next(err); }
-      res.render('item_list', {
+      res.render('info_list', {
         title: strings.listTitle,
-        item_list: list_infos,
-        type: 'info',
+        info_list: list_infos,
         breadcrumbs: [
           { url: '/', text: 'Home' },
           { url: '/edit', text: 'Edit content' }

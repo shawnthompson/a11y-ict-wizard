@@ -107,14 +107,11 @@ exports.download = (req, res, next) => {
 			return next(err);
 		}
 		if (!results.fps || results.fps.length === 0) { // No clauses selected
-			console.log('No clauses selected, redirecting...');
-			return res.redirect('/view/create');
+			console.log('No clauses selected...');
 		}
 		results.fps = results.fps.sort((a, b) => a.number.localeCompare(b.number, undefined, { numeric: true }));
 		// Remove Tables and Figures annex if not applicable
-		let figureClauses = ['5.1.4', '8.3.4.1', '8.3.4.2', '8.3.4.3.2', '8.3.4.3.3', '8.3.2.5', '8.3.2.6',
-			'8.3.2.1', '8.3.2.2', '8.3.2.3.2', '8.3.2.3.3', '8.3.3.1', '8.3.3.2',
-			'8.3.3.3.1', '8.3.3.3.2'];
+		let figureClauses = ['5.1.4', '8.3.10.2', '8.3.10.3', '8.3.11.1', '8.3.11.2', '9.5'];
 		results.annex = results.annex.filter(function (el) {
 			return !el.name.includes('figures') ||
 				results.fps.some(e => figureClauses.includes(e.number));
