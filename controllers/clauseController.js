@@ -320,14 +320,11 @@ async function updateFromWordFiles(englishFile, frenchFile) {
         number = firstLine.substring(0, spaceId).trim();
         name = firstLine.substring(spaceId + 1).trim();
       }
-      if (number === '5.1.3.14') {
-      console.log(htmlBlob);
-      }
       const children = tempDiv.childNodes;
       let relationshipToFPCFound = false;
       for (let i = 1; i < children.length; i++) {
         const text = children[i].textContent || '';
-        if (text.startsWith("Relationship between requirements and functional performance ") || text.startsWith("Relation entre les exigences et les critères de performance fonctionnelle")) {
+        if (text.startsWith("Relationship between requirements and functional performance ") || text.startsWith("Relation entre les exigences et les critères de rendement fonctionnel")) {
           relationshipToFPCFound = true;
           continue;
         }
