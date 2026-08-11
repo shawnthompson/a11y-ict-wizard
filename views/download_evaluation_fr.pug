@@ -1,7 +1,7 @@
 doctype html
 html(lang='fr')
   head
-    title Rapport de conformité d'accessibilité des technologies de l'information et des communications (TIC) (EN 301 549 v3.2.1)
+    title la liste des exigences en matière daccessibilité des TIC pouvant être testées
     meta(charset='utf-8')
     if format == 'docx'
       style
@@ -13,6 +13,5 @@ html(lang='fr')
     .WordSection1
       p Généré le #{moment().format('YYYY-MM-DD')}
       include includes/evaluation_intro_fr.html
-      include includes/scope_fr
-      h2 Exigences testables de la norme EN 301 549 (2025)
       include includes/list_evaluation_fr
+      include includes/scope_fr
